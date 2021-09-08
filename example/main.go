@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	config.LoadConfig("my_config.yaml", "MY_CONF")
+	config.LoadConfig("MY_CONF")
 	purpose := viper.GetString("purpose")
 	fmt.Println("Purpose:", purpose)
 }

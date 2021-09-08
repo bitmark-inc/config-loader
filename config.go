@@ -12,13 +12,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-func LoadConfig(file, envPrefix string, configPaths ...string) {
+// LoadConfig first reads `config.yaml` from a list of configuration path and merges
+// the configurations with environment variables if there is any.
+func LoadConfig(envPrefix string, configPaths ...string) {
 	// Config from file
 	viper.SetConfigType("yaml")
-	if file != "" {
-		viper.SetConfigFile(file)
-	}
-
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("/.config/")
 

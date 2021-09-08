@@ -11,7 +11,7 @@ viper.GetString("my_key")
 After import the package, you simply call:
 
 ```go
-config.LoadConfig("my_config.yaml", "MY_CONF")
+config.LoadConfig("MY_CONF")
 ```
 
 For more detail, please look into `example` folder.
