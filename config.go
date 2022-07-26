@@ -36,6 +36,8 @@ func LoadConfig(envPrefix string, configPaths ...string) {
 
 	// allow log.level to be adjusted
 	switch strings.ToUpper(viper.GetString("log.level")) {
+	case "TRACE":
+		log.SetLevel(log.TraceLevel)
 	case "DEBUG":
 		log.SetLevel(log.DebugLevel)
 	case "INFO":
