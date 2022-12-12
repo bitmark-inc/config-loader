@@ -17,12 +17,13 @@ import (
 func LoadConfig(envPrefix string, configPaths ...string) {
 	// Config from file
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
-	viper.AddConfigPath("/.config/")
 
 	for _, p := range configPaths {
 		viper.AddConfigPath(p)
 	}
+
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("/.config/")
 
 	if err := viper.ReadInConfig(); err != nil {
 		log.Debug("No config file. Read config from env.")
