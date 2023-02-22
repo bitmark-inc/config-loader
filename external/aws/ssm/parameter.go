@@ -10,9 +10,9 @@ type ParameterStore struct {
 	client *ssm.Client
 }
 
-// New create new ParameterStore
+// NewParameterStore create new ParameterStore
 // config will load secret, region from aws configure
-func New(ctx context.Context) (*ParameterStore, error) {
+func NewParameterStore(ctx context.Context) (*ParameterStore, error) {
 	cfg, err := config.LoadDefaultConfig(ctx)
 	if err != nil {
 		return nil, err
@@ -23,8 +23,8 @@ func New(ctx context.Context) (*ParameterStore, error) {
 	}, nil
 }
 
-// FindParameterByName find parameter in AWS SSM parameter store
-func (s *ParameterStore) FindParameterByName(ctx context.Context, parameterName string) (*ssm.GetParameterOutput, error) {
+// GetKey find parameter in AWS SSM parameter store
+func (s *ParameterStore) GetKey(ctx context.Context, parameterName string) (*ssm.GetParameterOutput, error) {
 	input := &ssm.GetParameterInput{
 		Name: &parameterName,
 	}

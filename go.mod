@@ -5,7 +5,6 @@ go 1.17
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.18.14
 	github.com/aws/aws-sdk-go-v2/service/ssm v1.35.4
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.8.1
 )
