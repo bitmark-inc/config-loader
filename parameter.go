@@ -9,8 +9,8 @@ import (
 	"github.com/bitmark-inc/config-loader/external/aws/ssm"
 )
 
-// GetRSAPublishKeyFromParameterStore get RSA Publish Key from Parameter Store
-func GetRSAPublishKeyFromParameterStore(ctx context.Context, parameterName string, parameterStore *ssm.ParameterStore) (*rsa.PublicKey, error) {
+// GetRSAPublicKeyFromParameterStore get RSA Publish Key from Parameter Store
+func GetRSAPublicKeyFromParameterStore(ctx context.Context, parameterName string, parameterStore *ssm.ParameterStore) (*rsa.PublicKey, error) {
 	parameter, err := parameterStore.FindParameterByName(ctx, parameterName)
 	if err != nil {
 		return nil, err
