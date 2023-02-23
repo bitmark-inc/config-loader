@@ -23,16 +23,28 @@ func NewParameterStore(ctx context.Context) (*ParameterStore, error) {
 	}, nil
 }
 
-// GetKey find parameter in AWS SSM parameter store
-func (s *ParameterStore) GetKey(ctx context.Context, parameterName string) (*ssm.GetParameterOutput, error) {
+func (p *ParameterStore) Get(ctx context.Context, key string) (value any, err error) {
 	input := &ssm.GetParameterInput{
-		Name: &parameterName,
+		Name: &key,
 	}
 
-	parameter, err := s.client.GetParameter(ctx, input)
+	parameter, err := p.client.GetParameter(ctx, input)
 	if err != nil {
-		return nil, err
+		return
 	}
 
-	return parameter, nil
+	value = *parameter.Parameter.Value
+
+	return
+}
+
+// GetString find parameter in AWS SSM parameter store
+func (p *ParameterStore) GetString(ctx context.Context, key string) (s string, err error) {
+	val, err := p.Get(ctx, key)
+
+	if val != nil && err == nil {
+		s, _ = val.(string)
+	}
+
+	return
 }
