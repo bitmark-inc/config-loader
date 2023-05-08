@@ -14,20 +14,22 @@ import (
 
 // LoadConfig first reads `config.yaml` from a list of configuration path and merges
 // the configurations with environment variables if there is any.
-func LoadConfig(envPrefix string, configPaths ...string) {
+func LoadConfig(envPrefix string, extraConfigPaths ...string) {
 	// Config from file
 	viper.SetConfigType("yaml")
-
-	for _, p := range configPaths {
-		viper.AddConfigPath(p)
-	}
-
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("/.config/")
 
 	if err := viper.ReadInConfig(); err != nil {
-		log.Debug("No config file. Read config from env.")
-		viper.AllowEmptyEnv(false)
+		log.WithError(err).Warn("No config file. Read config from env.")
+	}
+
+	// merge config with extra configurations
+	for _, p := range extraConfigPaths {
+		viper.SetConfigFile(p)
+		if err := viper.MergeInConfig(); err != nil {
+			log.WithError(err).WithField("path", p).Warn("Fail to read config from path.")
+		}
 	}
 
 	// Config from env if possible
