@@ -2,8 +2,11 @@ package ssm
 
 import (
 	"context"
+
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
+	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
+	"github.com/aws/aws-sdk-go/aws"
 )
 
 type ParameterStore struct {
@@ -35,6 +38,18 @@ func (p *ParameterStore) Get(ctx context.Context, key string) (value any, err er
 
 	value = *parameter.Parameter.Value
 
+	return
+}
+
+func (p *ParameterStore) Put(ctx context.Context, key string, value string) (err error) {
+	input := &ssm.PutParameterInput{
+		Name:      &key,
+		Value:     &value,
+		Type:      types.ParameterTypeString,
+		Overwrite: aws.Bool(true),
+	}
+
+	_, err = p.client.PutParameter(ctx, input)
 	return
 }
 
