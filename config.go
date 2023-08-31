@@ -12,9 +12,15 @@ import (
 	"github.com/spf13/viper"
 )
 
+type Configuration struct {
+	ParameterStore *ParameterStore
+}
+
+var configuration Configuration
+
 // LoadConfig first reads `config.yaml` from a list of configuration path and merges
 // the configurations with environment variables if there is any.
-func LoadConfig(envPrefix string, extraConfigPaths ...string) {
+func LoadConfig(envPrefix string, extraConfigPaths ...string) Configuration {
 	// Config from file
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath(".")
@@ -52,4 +58,6 @@ func LoadConfig(envPrefix string, extraConfigPaths ...string) {
 	default:
 		log.SetLevel(log.ErrorLevel)
 	}
+
+	return configuration
 }
