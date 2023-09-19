@@ -44,6 +44,14 @@ func (p *ParameterStore) GetString(ctx context.Context, key string) (string, err
 	return p.ParameterStore.GetString(ctx, key)
 }
 
+func (p *ParameterStore) GetSecretString(ctx context.Context, key string) (string, error) {
+	if err := ensureAWSParameterStore(ctx, &p); err != nil {
+		return "", err
+	}
+
+	return p.ParameterStore.GetSecretString(ctx, key)
+}
+
 func (p *ParameterStore) PutString(ctx context.Context, key, value string) error {
 	if err := ensureAWSParameterStore(ctx, &p); err != nil {
 		return err

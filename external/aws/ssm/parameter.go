@@ -68,6 +68,24 @@ func (p *ParameterStore) GetString(ctx context.Context, key string) (string, err
 	return *parameter.Parameter.Value, nil
 }
 
+func (p *ParameterStore) GetSecretString(ctx context.Context, key string) (string, error) {
+	input := &ssm.GetParameterInput{
+		Name:           &key,
+		WithDecryption: aws.Bool(true),
+	}
+
+	parameter, err := p.client.GetParameter(ctx, input)
+	if err != nil {
+		return "", p.errorWithRegion(err)
+	}
+
+	if parameter.Parameter.Type != types.ParameterTypeSecureString {
+		return "", fmt.Errorf("parameter type is not string")
+	}
+
+	return *parameter.Parameter.Value, nil
+}
+
 func (p *ParameterStore) PutString(ctx context.Context, key string, value string) error {
 	input := &ssm.PutParameterInput{
 		Name:      &key,

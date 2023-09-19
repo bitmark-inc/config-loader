@@ -48,3 +48,15 @@ func TestPutString(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, now.String(), value)
 }
+
+func TestGetSecretString(t *testing.T) {
+	ctx := context.Background()
+	key := "/testSecret"
+
+	c := LoadConfig("CONFIG_TEST")
+
+	value, err := c.ParameterStore.GetSecretString(ctx, key)
+
+	assert.NoError(t, err)
+	assert.Equal(t, "this is a test secret", value)
+}
